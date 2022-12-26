@@ -17,7 +17,8 @@ pub async fn main() {
             get(get_demo_html_from_sub_dir),
         )
         .route("/demo_status_code", get(get_demo_status_code))
-        .route("/demo-uri", get(demo_uri));
+        .route("/demo-uri", get(demo_uri))
+        .route("/demo.png", get(get_demo_png));
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -58,6 +59,18 @@ pub async fn get_demo_status_code() -> (StatusCode, String) {
 
 pub async fn demo_uri(uri: axum::http::Uri) -> String {
     format!("the uri is, ``{:?}``", uri)
+}
+
+pub async fn get_demo_png() -> impl axum::response::IntoResponse {
+    let png = concat!(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB",
+        "CAYAAAAfFcSJAAAADUlEQVR42mPk+89Q",
+        "DwADvgGOSHzRgAAAAABJRU5ErkJggg=="
+    );
+    (
+        axum::response::AppendHeaders([(axum::http::header::CONTENT_TYPE, "image/png")]),
+        base64::decode(png).unwrap(),
+    )
 }
 
 // graceful shutdown ------------------------------------------------

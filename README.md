@@ -13,5 +13,7 @@ Done...
 - Sending html from sibling file.
 - Sending html from subdirectory file.
 - Sending status-code with string.
+- Send request uri.
+- Send custom-header and png-image.
 
 =

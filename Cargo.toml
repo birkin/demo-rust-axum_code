@@ -10,14 +10,20 @@ edition = "2021"
 # web framework
 axum = "0.6.1"
 
+# encode & decode base64 as bytes or utf8
+base64 = "0.20.0"
+
+# types for http requests and responses
+http = "0.2.8"
+
 # low-level http library
 hyper = { version = "0.14.23", features = ["full"] }
-
-# async framework
-tokio = { version = "1.23.0", features = ["full"] }
 
 # serialization framework
 serde = { version = "1.0.150", features = ["derive"] }
 
 # json serializer
 serde_json = "1.0.89"
+
+# async framework
+tokio = { version = "1.23.0", features = ["full"] }

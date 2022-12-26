@@ -1,7 +1,8 @@
 Going through <https://github.com/joelparkerhenderson/demo-rust-axum>.
 
-Currently at:
-<https://github.com/joelparkerhenderson/demo-rust-axum#respond-with-the-request-uri>
+Next:
+<https://github.com/joelparkerhenderson/demo-rust-axum#respond-to-multiple-http-verbs>
+...but taking a break to experiment with encoding PNGs to base64 and comparing python and rust.
 
 Done...
 

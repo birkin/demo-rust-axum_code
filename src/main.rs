@@ -16,7 +16,8 @@ pub async fn main() {
             "/demo_from_html_sub_dir.html",
             get(get_demo_html_from_sub_dir),
         )
-        .route("/demo_status_code", get(get_demo_status_code));
+        .route("/demo_status_code", get(get_demo_status_code))
+        .route("/demo-uri", get(demo_uri));
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -53,6 +54,10 @@ pub async fn get_demo_html_from_sub_dir() -> Html<&'static str> {
 
 pub async fn get_demo_status_code() -> (StatusCode, String) {
     (axum::http::StatusCode::OK, "200/ OK".to_string())
+}
+
+pub async fn demo_uri(uri: axum::http::Uri) -> String {
+    format!("the uri is, ``{:?}``", uri)
 }
 
 // graceful shutdown ------------------------------------------------

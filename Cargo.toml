@@ -19,6 +19,9 @@ http = "0.2.8"
 # low-level http library
 hyper = { version = "0.14.23", features = ["full"] }
 
+# for image-encoding example -- .route("/demo.png", get(get_demo_png));
+image = "0.24.5"
+
 # serialization framework
 serde = { version = "1.0.150", features = ["derive"] }
 

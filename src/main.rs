@@ -22,7 +22,15 @@ pub async fn main() {
         .route("/demo_status_code", get(get_demo_status_code))
         .route("/demo-uri", get(demo_uri))
         .route("/demo_tutorial.png", get(get_demo_tutorial_png))
-        .route("/demo_direct.png", get(get_demo_direct_png));
+        .route("/demo_direct.png", get(get_demo_direct_png))
+        .route(
+            "/verb_foo",
+            get(verb_foo_get)
+                .post(verb_foo_post)
+                .put(verb_foo_put)
+                .patch(verb_foo_patch)
+                .delete(verb_foo_delete),
+        );
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -133,6 +141,26 @@ pub async fn get_demo_direct_png() -> impl axum::response::IntoResponse {
 
     // return the image
     (image_header, img)
+}
+
+pub async fn verb_foo_get() -> String {
+    "GET verb_foo\n".to_string()
+}
+
+pub async fn verb_foo_post() -> String {
+    "POST verb_foo\n".to_string()
+}
+
+pub async fn verb_foo_put() -> String {
+    "PUT verb_foo\n".to_string()
+}
+
+pub async fn verb_foo_patch() -> String {
+    "PATCH verb_foo\n".to_string()
+}
+
+pub async fn verb_foo_delete() -> String {
+    "DELETE verb_foo\n".to_string()
 }
 
 // graceful shutdown ------------------------------------------------

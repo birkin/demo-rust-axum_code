@@ -1,8 +1,7 @@
 Going through <https://github.com/joelparkerhenderson/demo-rust-axum>.
 
 Next:
-<https://github.com/joelparkerhenderson/demo-rust-axum#respond-to-multiple-http-verbs>
-...but taking a break to experiment with encoding PNGs to base64 and comparing python and rust.
+https://github.com/joelparkerhenderson/demo-rust-axum#extrators>
 
 ---
 
@@ -19,5 +18,6 @@ Done...
 - Sending status-code with string.
 - Send request uri.
 - Send custom-header and png-image.
+- Respond to varied http-verbs.
 
 =

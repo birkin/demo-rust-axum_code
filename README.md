@@ -1,7 +1,7 @@
 Going through <https://github.com/joelparkerhenderson/demo-rust-axum>.
 
 Next:
-https://github.com/joelparkerhenderson/demo-rust-axum#extrators>
+https://github.com/joelparkerhenderson/demo-rust-axum#extrators> ("extractors")
 
 ---
 
@@ -19,5 +19,7 @@ Done...
 - Send request uri.
 - Send custom-header and png-image.
 - Respond to varied http-verbs.
+- Handle extractors...
+    - Handle path-parameter.
 
 =

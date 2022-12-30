@@ -1,6 +1,6 @@
 use axum::{http::StatusCode, response::Html, routing::get, Router};
-// use image::{DynamicImage, ImageOutputFormat}; // for image-to-base64 work
 use image::ImageOutputFormat; // for image-to-base64 work
+                              // use std::{arch::aarch64::int32x2_t, io::Cursor}; // for image-to-base64 work
 use std::io::Cursor; // for image-to-base64 work
 
 #[tokio::main]
@@ -30,7 +30,8 @@ pub async fn main() {
                 .put(verb_foo_put)
                 .patch(verb_foo_patch)
                 .delete(verb_foo_delete),
-        );
+        )
+        .route("/items/:id", get(get_items_id));
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -161,6 +162,10 @@ pub async fn verb_foo_patch() -> String {
 
 pub async fn verb_foo_delete() -> String {
     "DELETE verb_foo\n".to_string()
+}
+
+pub async fn get_items_id(axum::extract::Path(id): axum::extract::Path<String>) -> String {
+    format!("GET items with path id, ``{:?}``\n", id)
 }
 
 // graceful shutdown ------------------------------------------------

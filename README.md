@@ -21,5 +21,6 @@ Done...
 - Respond to varied http-verbs.
 - Handle extractors...
     - Handle path-parameter.
+    - Handle query-parameters.
 
 =

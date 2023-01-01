@@ -36,7 +36,11 @@ pub async fn main() {
         .route("/items/:id", get(get_items_id)) // demonstrates path-parameters
         .route("/items_query_params_example_A", get(get_items_tutorial)) // demonstrates query-parameters
         .route("/items_query_params_example_B", get(get_items_birkin)) // demonstrates query-parameters, with more explicit steps
-        .route("/demo.json", get(get_demo_json));
+        .route(
+            "/demo.json",
+            get(get_demo_json) // demonstrates basic json get-response
+                .put(put_demo_json), // demonstrates json-handling via tutorial
+        );
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -189,6 +193,12 @@ pub async fn get_items_birkin(
 
 pub async fn get_demo_json() -> axum::extract::Json<Value> {
     json!( {"a":"b"} ).into()
+}
+
+pub async fn put_demo_json(
+    axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
+) -> String {
+    format!("PUT demo_json with data, ``{:?}``\n", data)
 }
 
 // graceful shutdown ------------------------------------------------

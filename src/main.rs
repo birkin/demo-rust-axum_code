@@ -40,6 +40,11 @@ pub async fn main() {
             "/demo.json",
             get(get_demo_json) // demonstrates basic json get-response
                 .put(put_demo_json), // demonstrates json-handling via tutorial
+        )
+        .route(
+            "/demo_birkin.json",
+            get(get_demo_json_birkin) // hack; returns a `405 Method Not Allowed`
+                .put(put_demo_json_birkin), // demonstrates PUT handling with more explicit steps
         );
 
     // run app as hyper server on http://localhost:3000 -------------
@@ -196,6 +201,19 @@ pub async fn get_demo_json() -> axum::extract::Json<Value> {
 }
 
 pub async fn put_demo_json(
+    axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
+) -> String {
+    format!("PUT demo_json with data, ``{:?}``\n", data)
+}
+
+pub async fn get_demo_json_birkin() -> impl axum::response::IntoResponse {
+    (
+        axum::http::StatusCode::METHOD_NOT_ALLOWED,
+        format!("405 Method Not Allowed"),
+    )
+}
+
+pub async fn put_demo_json_birkin(
     axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
 ) -> String {
     format!("PUT demo_json with data, ``{:?}``\n", data)

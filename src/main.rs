@@ -1,6 +1,7 @@
 use axum::{http::StatusCode, response::Html, routing::get, Router};
 use axum_macros::debug_handler; // for debugging; recommended by <https://docs.rs/axum-macros/latest/axum_macros/attr.debug_handler.html>
 use image::ImageOutputFormat; // for image-to-base64 work
+use serde_json::{json, Value};
 use std::collections::HashMap; // for query-params work
 use std::io::Cursor; // for image-to-base64 work
 
@@ -9,9 +10,9 @@ pub async fn main() {
     // router -------------------------------------------------------
     let app: Router = axum::Router::new()
         // .fallback( fallback.into_service() )
-        .fallback( fallback ) // different from tutorial; whew
-        .route( "/", get(hello) )
-        .route( "/demo_from_string.html", get(get_demo_html_from_string) )
+        .fallback(fallback) // different from tutorial; whew
+        .route("/", get(hello))
+        .route("/demo_from_string.html", get(get_demo_html_from_string))
         .route(
             "/demo_from_sibling_file.html",
             get(get_demo_html_from_sibling_file),
@@ -20,10 +21,10 @@ pub async fn main() {
             "/demo_from_html_sub_dir.html",
             get(get_demo_html_from_sub_dir),
         )
-        .route( "/demo_status_code", get(get_demo_status_code) )
-        .route( "/demo-uri", get(demo_uri) )
-        .route( "/demo_tutorial.png", get(get_demo_tutorial_png) )
-        .route( "/demo_direct.png", get(get_demo_direct_png) )
+        .route("/demo_status_code", get(get_demo_status_code))
+        .route("/demo-uri", get(demo_uri))
+        .route("/demo_tutorial.png", get(get_demo_tutorial_png))
+        .route("/demo_direct.png", get(get_demo_direct_png))
         .route(
             "/verb_foo",
             get(verb_foo_get)
@@ -32,10 +33,10 @@ pub async fn main() {
                 .patch(verb_foo_patch)
                 .delete(verb_foo_delete),
         )
-        .route( "/items/:id", get(get_items_id) ) // demonstrates path-parameters
-        .route( "/items_query_params_example_A", get(get_items_tutorial) ) // demonstrates query-parameters
-        .route( "/items_query_params_example_B", get(get_items_birkin) ) // demonstrates query-parameters, with more explicit steps
-        ;
+        .route("/items/:id", get(get_items_id)) // demonstrates path-parameters
+        .route("/items_query_params_example_A", get(get_items_tutorial)) // demonstrates query-parameters
+        .route("/items_query_params_example_B", get(get_items_birkin)) // demonstrates query-parameters, with more explicit steps
+        .route("/demo.json", get(get_demo_json));
 
     // run app as hyper server on http://localhost:3000 -------------
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
@@ -184,6 +185,10 @@ pub async fn get_items_birkin(
 ) -> String {
     let extract_params: HashMap<String, String> = query_params.0; // don't exactly understand why this works, but it does. It's not as if the Query object has a .1, .2, etc. It has lots of other methods.
     format!("GET items with query params, ``{:?}``\n", extract_params)
+}
+
+pub async fn get_demo_json() -> axum::extract::Json<Value> {
+    json!( {"a":"b"} ).into()
 }
 
 // graceful shutdown ------------------------------------------------

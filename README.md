@@ -22,5 +22,6 @@ Done...
 - Handle extractors...
     - Handle path-parameter.
     - Handle query-parameters.
+    - Return json from a GET.
 
 =

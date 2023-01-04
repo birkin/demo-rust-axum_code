@@ -175,35 +175,19 @@ pub async fn get_items_tutorial(
     format!("GET items with query params, ``{:?}``\n", query_params) // returns: --> GET items with query params, ``{"foo": "bar"}`` <--
 }
 
-// pub async fn get_items_birkin(
-//     query_params: axum::extract::Query<HashMap<String, String>>,
-// ) -> String {
-//     let extracted_params = axum::extract::Query(query_params);
-//     format!("GET items with query params, ``{:?}``\n", extracted_params) // not quite right; returns: --> GET items with query params, ``Query(Query({"foo": "bar"}))`` <--
-// }
-
-// pub async fn get_items_birkin(
-//     query_params: axum::extract::Query<HashMap<String, String>>,
-// ) -> String {
-//     format!("GET items with query params, ``{:?}``\n", query_params) // still not quite right; returns: --> GET items with query params, ``Query({"foo": "bar"})`` <--
-// }
-
 #[debug_handler]
 pub async fn get_items_birkin(
     query_params: axum::extract::Query<HashMap<String, String>>,
 ) -> String {
     let extract_params: HashMap<String, String> = query_params.0; // don't exactly understand why this works, but it does. It's not as if the Query object has a .1, .2, etc. It has lots of other methods.
-    format!("GET items with query params, ``{:?}``\n", extract_params)
+    format!(
+        "GET items with query params (with more-explicit handling), ``{:?}``\n",
+        extract_params
+    )
 }
 
 pub async fn get_demo_json() -> axum::extract::Json<Value> {
     json!( {"a":"b"} ).into()
-}
-
-pub async fn put_demo_json(
-    axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
-) -> String {
-    format!("PUT demo_json with data, ``{:?}``\n", data)
 }
 
 pub async fn get_demo_json_birkin() -> impl axum::response::IntoResponse {
@@ -213,10 +197,20 @@ pub async fn get_demo_json_birkin() -> impl axum::response::IntoResponse {
     )
 }
 
-pub async fn put_demo_json_birkin(
+pub async fn put_demo_json(
     axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
 ) -> String {
     format!("PUT demo_json with data, ``{:?}``\n", data)
+}
+
+#[debug_handler]
+pub async fn put_demo_json_birkin(data: String) -> String {
+    let put_data: axum::extract::Json<serde_json::Value> =
+        axum::extract::Json(serde_json::from_str(&data).unwrap());
+    format!(
+        "PUT demo_json with data (with more-excplicit handling), ``{:?}``\n",
+        put_data
+    )
 }
 
 // graceful shutdown ------------------------------------------------

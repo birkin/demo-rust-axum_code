@@ -200,18 +200,29 @@ pub async fn get_demo_json_birkin() -> impl axum::response::IntoResponse {
 pub async fn put_demo_json(
     axum::extract::Json(data): axum::extract::Json<serde_json::Value>,
 ) -> String {
-    format!("PUT demo_json with data, ``{:?}``\n", data)
+    format!("PUT demo_json with data, ``{:?}``\n", data)  // yields: PUT demo_json with data, ``Object {"a": String("b")}``
 }
 
 #[debug_handler]
 pub async fn put_demo_json_birkin(data: String) -> String {
+    println!( "data = ``{:?}``", data );  // yields: data = ``"{\"a\":\"b\"}"``
     let put_data: axum::extract::Json<serde_json::Value> =
-        axum::extract::Json(serde_json::from_str(&data).unwrap());
+        axum::extract::Json(serde_json::from_str(&data).unwrap());  
     format!(
-        "PUT demo_json with data (with more-excplicit handling), ``{:?}``\n",
+        "PUT demo_json with data (with more-explicit handling), ``{:?}``\n",
         put_data
-    )
+    )  // not quite; yields: PUT demo_json with data (with more-explicit handling), ``Json(Object {"a": String("b")})``
 }
+
+// #[debug_handler]
+// pub async fn put_demo_json_birkin(data: axum::extract::Query<HashMap<String, String>>,) -> String {
+//     println!( "data = ``{:?}``", data );
+//     let put_data: HashMap<String, String> = axum::extract::Json(data.0).0;  
+//     format!(
+//         "PUT demo_json with data (with more-excplicit handling), ``{:?}``\n",
+//         put_data
+//     )  // nope; returns "PUT demo_json with data (with more-explicit handling), ``{}``"
+// }
 
 // graceful shutdown ------------------------------------------------
 
